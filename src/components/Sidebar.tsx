@@ -9,7 +9,6 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile menu button */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <Button
           variant="outline"
@@ -21,14 +20,12 @@ export function Sidebar() {
         </Button>
       </div>
 
-      {/* Mobile sidebar */}
       <Sheet open={isMobile} onOpenChange={setMobile}>
         <SheetContent side="left" className="w-72 p-0 border-slate-200/60">
           <MenuContent />
         </SheetContent>
       </Sheet>
 
-      {/* Desktop sidebar */}
       <aside className="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40">
         <MenuContent />
       </aside>

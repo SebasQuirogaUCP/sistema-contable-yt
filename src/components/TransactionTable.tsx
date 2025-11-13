@@ -87,28 +87,28 @@ export function TransactionTable() {
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent border-b border-slate-100">
-                    <TableHead className="font-semibold text-slate-900">
+                    <TableHead className="font-semibold text-slate-900 text-center">
                       Fecha
                     </TableHead>
-                    <TableHead className="font-semibold text-slate-900">
+                    <TableHead className="font-semibold text-slate-900 text-center">
                       Tipo
                     </TableHead>
-                    <TableHead className="font-semibold text-slate-900">
+                    <TableHead className="font-semibold text-slate-900 text-center">
                       Categoría
                     </TableHead>
-                    <TableHead className="font-semibold text-slate-900">
+                    <TableHead className="font-semibold text-slate-900 text-center">
                       Descripción
                     </TableHead>
-                    <TableHead className="text-right font-semibold text-slate-900">
+                    <TableHead className="font-semibold text-slate-900 text-center">
                       Monto
                     </TableHead>
-                    <TableHead className="font-semibold text-slate-900">
+                    <TableHead className="font-semibold text-slate-900 text-center">
                       Método de Pago
                     </TableHead>
-                    <TableHead className="font-semibold text-slate-900">
+                    <TableHead className="font-semibold text-slate-900 text-center">
                       Referencia
                     </TableHead>
-                    <TableHead className="text-right font-semibold text-slate-900">
+                    <TableHead className="font-semibold text-slate-900 text-center">
                       Acciones
                     </TableHead>
                   </TableRow>
@@ -120,8 +120,8 @@ export function TransactionTable() {
                       key={transaction.id}
                       className="hover:bg-slate-50 transition-colors duration-150 border-b border-slate-100"
                     >
-                      <TableCell className="font-medium">
-                        <div className="flex flex-col">
+                      <TableCell className="font-medium text-center">
+                        <div className="flex flex-col items-center">
                           <span className="text-sm text-slate-900">
                             {new Date(transaction.date).toLocaleDateString(
                               "es-ES",
@@ -137,31 +137,34 @@ export function TransactionTable() {
                         </div>
                       </TableCell>
 
-                      <TableCell>
+                      <TableCell className="text-center">
                         <span
-                          className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold border ${
+                          className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold border ${
                             transaction.type === "ingreso"
                               ? "bg-green-50 text-green-700 border-green-200"
                               : "bg-red-50 text-red-700 border-red-200"
                           }`}
                         >
-                          {transaction.type?.toUpperCase()}
+                          {transaction.type === "ingreso" ? "Ingreso" : "Gasto"}
                         </span>
                       </TableCell>
-                      <TableCell>
+
+                      <TableCell className="text-center">
                         <span className="font-medium text-sm text-slate-900">
                           {transaction.category}
                         </span>
                       </TableCell>
-                      <TableCell className="max-w-[200px]">
+
+                      <TableCell className="max-w-[200px] text-center">
                         <div
-                          className="truncate font-medium text-slate-900"
+                          className="truncate font-medium text-slate-900 mx-auto"
                           title={transaction.description}
                         >
                           {transaction.description}
                         </div>
                       </TableCell>
-                      <TableCell className="text-right">
+
+                      <TableCell className="text-center">
                         <span
                           className={`font-bold text-base ${
                             transaction.type === "ingreso"
@@ -176,20 +179,23 @@ export function TransactionTable() {
                           })}
                         </span>
                       </TableCell>
-                      <TableCell>
+
+                      <TableCell className="text-center">
                         <span className="text-sm text-slate-600">
                           {transaction.paymentMethod}
                         </span>
                       </TableCell>
-                      <TableCell className="max-w-[150px]">
-                        <div className="truncate text-sm text-slate-600">
+
+                      <TableCell className="max-w-[150px] text-center">
+                        <div className="truncate text-sm text-slate-600 mx-auto">
                           {transaction.reference || (
                             <span className="text-slate-300">-</span>
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-1">
+
+                      <TableCell className="text-center">
+                        <div className="flex justify-center gap-1">
                           <Button
                             variant="ghost"
                             size="icon"
