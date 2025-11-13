@@ -22,7 +22,7 @@ Este proyecto es parte de una serie educativa en mi canal de YouTube donde const
 
 1. Clona este repositorio:
 ```bash
-git clone <tu-repositorio>
+git clone git@github.com:SebasQuirogaUCP/sistema-contable-yt.git
 cd sistema-contable-yt
 ```
 
