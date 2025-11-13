@@ -35,7 +35,7 @@ export const ChartsGrid = () => {
         acc[month] = { month, income: 0, expenses: 0 };
       }
 
-      if (t.type === "income") {
+      if (t.type === "ingreso") {
         acc[month].income += t.amount;
       } else {
         acc[month].expenses += t.amount;
@@ -50,10 +50,10 @@ export const ChartsGrid = () => {
 
   const pieData = useMemo(() => {
     const income = transactions
-      .filter((t) => t.type === "income")
+      .filter((t) => t.type === "ingreso")
       .reduce((sum, t) => sum + t.amount, 0);
     const expenses = transactions
-      .filter((t) => t.type === "expense")
+      .filter((t) => t.type === "gasto")
       .reduce((sum, t) => sum + t.amount, 0);
 
     return [
@@ -64,29 +64,30 @@ export const ChartsGrid = () => {
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-xl">Ingresos vs Gastos</CardTitle>
-          <CardDescription className="text-base">
+      <Card className="border border-slate-200 bg-white">
+        <CardHeader className="pb-4 border-b border-slate-100">
+          <CardTitle className="text-lg font-semibold text-slate-900">
+            Ingresos vs Gastos
+          </CardTitle>
+          <CardDescription className="text-sm text-slate-600 mt-1">
             Evolución mensual
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <ResponsiveContainer width="100%" height={320}>
             <LineChart data={monthlyData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
               <XAxis
                 dataKey="month"
-                stroke="#64748b"
+                stroke="#94a3b8"
                 style={{ fontSize: "12px" }}
               />
-              <YAxis stroke="#64748b" style={{ fontSize: "12px" }} />
+              <YAxis stroke="#94a3b8" style={{ fontSize: "12px" }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "rgba(255, 255, 255, 0.95)",
+                  backgroundColor: "#ffffff",
                   border: "1px solid #e2e8f0",
-                  borderRadius: "8px",
-                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "6px",
                 }}
                 formatter={(value: number) =>
                   `$${value.toLocaleString("es-ES", {
@@ -95,38 +96,40 @@ export const ChartsGrid = () => {
                   })}`
                 }
               />
-              <Legend />
+              <Legend wrapperStyle={{ paddingTop: "16px" }} />
               <Line
                 type="monotone"
                 dataKey="income"
-                stroke="#10b981"
-                strokeWidth={3}
+                stroke="#059669"
+                strokeWidth={2.5}
                 name="Ingresos"
-                dot={{ fill: "#10b981", r: 4 }}
-                activeDot={{ r: 6 }}
+                dot={{ fill: "#059669", r: 3.5 }}
+                activeDot={{ r: 5 }}
               />
               <Line
                 type="monotone"
                 dataKey="expenses"
-                stroke="#ef4444"
-                strokeWidth={3}
+                stroke="#dc2626"
+                strokeWidth={2.5}
                 name="Gastos"
-                dot={{ fill: "#ef4444", r: 4 }}
-                activeDot={{ r: 6 }}
+                dot={{ fill: "#dc2626", r: 3.5 }}
+                activeDot={{ r: 5 }}
               />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
 
-      <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-xl">Distribución</CardTitle>
-          <CardDescription className="text-base">
+      <Card className="border border-slate-200 bg-white">
+        <CardHeader className="pb-4 border-b border-slate-100">
+          <CardTitle className="text-lg font-semibold text-slate-900">
+            Distribución
+          </CardTitle>
+          <CardDescription className="text-sm text-slate-600 mt-1">
             Ingresos y gastos
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6 flex items-center justify-center">
           <ResponsiveContainer width="100%" height={320}>
             <PieChart>
               <Pie
@@ -144,16 +147,15 @@ export const ChartsGrid = () => {
                 {pieData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={index === 0 ? "#10b981" : "#ef4444"}
+                    fill={index === 0 ? "#059669" : "#dc2626"}
                   />
                 ))}
               </Pie>
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "rgba(255, 255, 255, 0.95)",
+                  backgroundColor: "#ffffff",
                   border: "1px solid #e2e8f0",
-                  borderRadius: "8px",
-                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "6px",
                 }}
                 formatter={(value: number) =>
                   `$${value.toLocaleString("es-ES", {

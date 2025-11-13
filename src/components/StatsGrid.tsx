@@ -15,11 +15,11 @@ export const StatsGrid = () => {
 
   const stats = useMemo(() => {
     const income = transactions
-      .filter((t) => t.type === "income")
+      .filter((t) => t.type === "ingreso")
       .reduce((sum, t) => sum + t.amount, 0);
 
     const expenses = transactions
-      .filter((t) => t.type === "expense")
+      .filter((t) => t.type === "gasto")
       .reduce((sum, t) => sum + t.amount, 0);
 
     const balance = income - expenses;
