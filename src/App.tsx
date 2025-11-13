@@ -1,61 +1,18 @@
-import { useEffect, useState } from "react";
+import { Outlet } from "react-router";
 import "./App.css";
-import { Dashboard } from "./components/Dashboard";
 import { Sidebar } from "./components/Sidebar";
-import { TransactionTable } from "./components/TransactionTable";
-import type { Transaction } from "./types/transaction";
-
-type Page = "dashboard" | "datos";
 
 function App() {
-  const [activePage, setActivePage] = useState<Page>("dashboard");
-
-  const [transactions, setTransactions] = useState<Transaction[]>(() => {
-    const saved = localStorage.getItem("transactions");
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("transactions", JSON.stringify(transactions));
-  }, [transactions]);
-
-  const handleAddTransaction = (transaction: Omit<Transaction, "id">) => {
-    const newTransaction: Transaction = {
-      ...transaction,
-      id: crypto.randomUUID(),
-    };
-    setTransactions([...transactions, newTransaction]);
-  };
-
-  const handleUpdateTransaction = (
-    id: string,
-    transaction: Omit<Transaction, "id">
-  ) => {
-    setTransactions(
-      transactions.map((t) => (t.id === id ? { ...transaction, id } : t))
-    );
-  };
-
-  const handleDeleteTransaction = (id: string) => {
-    setTransactions(transactions.filter((t) => t.id !== id));
-  };
-
   return (
-    <div className="min-h-screen bg-background">
-      <Sidebar activePage={activePage} onPageChange={setActivePage} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50">
+      <Sidebar />
 
-      <main className="lg:pl-64">
-        {activePage === "dashboard" && (
-          <Dashboard transactions={transactions} />
-        )}
-        {activePage === "datos" && (
-          <TransactionTable
-            transactions={transactions}
-            onAdd={handleAddTransaction}
-            onUpdate={handleUpdateTransaction}
-            onDelete={handleDeleteTransaction}
-          />
-        )}
+      <main className="lg:pl-72 min-h-screen">
+        <div className="animate-in">
+          <div className="animate-fade-in">
+            <Outlet />
+          </div>
+        </div>
       </main>
     </div>
   );

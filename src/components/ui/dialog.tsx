@@ -8,10 +8,17 @@ interface DialogProps {
 }
 
 const Dialog = ({ open, onOpenChange, children }: DialogProps) => {
+  const [isVisible, setIsVisible] = React.useState(false)
+  const [shouldRender, setShouldRender] = React.useState(false)
+
   React.useEffect(() => {
     if (open) {
+      setShouldRender(true)
+      setTimeout(() => setIsVisible(true), 10)
       document.body.style.overflow = "hidden"
     } else {
+      setIsVisible(false)
+      setTimeout(() => setShouldRender(false), 200)
       document.body.style.overflow = ""
     }
     return () => {
@@ -19,11 +26,15 @@ const Dialog = ({ open, onOpenChange, children }: DialogProps) => {
     }
   }, [open])
 
-  if (!open) return null
+  if (!shouldRender) return null
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ${
+        isVisible
+          ? "bg-black/70 backdrop-blur-md"
+          : "bg-black/0 backdrop-blur-0"
+      }`}
       onClick={() => onOpenChange?.(false)}
     >
       {children}
@@ -35,11 +46,18 @@ const DialogContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
+  const [isVisible, setIsVisible] = React.useState(false)
+
+  React.useEffect(() => {
+    setTimeout(() => setIsVisible(true), 10)
+  }, [])
+
   return (
     <div
       ref={ref}
       className={cn(
-        "relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg",
+        "relative z-50 grid w-full max-w-lg gap-4 border-0 bg-white/98 backdrop-blur-xl p-0 shadow-2xl sm:rounded-2xl overflow-hidden transition-all duration-300",
+        isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0",
         className
       )}
       onClick={(e) => e.stopPropagation()}
